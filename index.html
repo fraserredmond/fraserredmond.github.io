@@ -2,30 +2,161 @@
   <head>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: arial, verdana, sans-serif;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+
+    #times,
+    #header,
+    #timesScroll {
+        width: 100%;
+    }
+    #header {
+        height: 1em;
+        text-align: center;
+    }
+    #timesScroll {
+        position: absolute;
+        top: 1.5em;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+    }
+    #times {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    tr {
+        margin: 0;
+        padding: 0;
+    }
+    th, td {
+        width: 20%;
+        margin: 0;
+        padding: 0;
+    }
+    #times th {
+        font-size: 0.8em;
+        vertical-align: top;
+        border-width: 1px 0 0 1px;
+        border-color: #E0E0E0;
+        border-style: solid;
+    }
+    #times th span {
+        opacity: 0.6;
+    }
+    #times td {
+        opacity: 0.9;
+        cursor: pointer;
+        border-width: 1px 0 0 0;
+        border-color: #E0E0E0;
+        border-style: solid;
+    }
+    #times td:hover {
+        opacity: 1;
+    }
+    
+    .nightTime {
+        background-color: #F0F0F0;
+    }
+    
+    .grey { /* sleep */
+        background-color: #808080;
+    }
+    .pink { /* food */
+        background-color: #DEA5A4;
+    }
+    .brown { /* poop */
+        background-color: #836953;
+    }
+    </style>
+    <script>
+    $(document).ready(function(){
+        $('#times').on('click', 'td', function (){
+            if (this.className.indexOf('brown') != -1) {
+                this.className = '';
+            } else if (this.className.indexOf('pink') != -1) {
+                this.className = 'brown';
+            } else if (this.className.indexOf('grey') != -1) {
+                this.className = 'pink';
+            } else {
+                this.className = 'grey';
+            }
+        });
+    });
+    </script>
   </head>
   <body>
-    <input type='text' id='nameInput' placeholder='Name'>
-    <input type='text' id='messageInput' placeholder='Message'>
-    <script>
-      var myDataRef = new Firebase('https://cm5732cju6q.firebaseio-demo.com/');
-      $('#messageInput').keypress(function (e) {
-        if (e.keyCode == 13) {
-          var name = $('#nameInput').val();
-          var text = $('#messageInput').val();
-          myDataRef.set({name: name, text: text});
-          $('#messageInput').val('');
-        }
-      });
-      
-      myDataRef.on('child_added', function(snapshot) {
-var message = snapshot.val();
-displayChatMessage(message.name, message.text);
-
-      });
-      function displayChatMessage(name, text) {
-        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-      };
+    <table id="header">
+     <tr><th></th><td>00</td><td>15</td><td>30</td><td>45</td></tr>
+    </table>
+    <div id="timesScroll">
+    <table id="times" cellspacing="0" cellpadding="0">
+     <tr class="nightTime"><th>12 <span>am</span></th><td id="0000"></td><td id="0015"></td><td id="0030"></td><td id="0045"></td></tr>
+     <tr class="nightTime"><th> 1 <span>am</span></th><td id="0100"></td><td id="0115"></td><td id="0130"></td><td id="0145"></td></tr>
+     <tr class="nightTime"><th> 2 <span>am</span></th><td id="0200"></td><td id="0215"></td><td id="0230"></td><td id="0245"></td></tr>
+     <tr class="nightTime"><th> 3 <span>am</span></th><td id="0300"></td><td id="0315"></td><td id="0330"></td><td id="0345"></td></tr>
+     <tr class="nightTime"><th> 4 <span>am</span></th><td id="0400"></td><td id="0415"></td><td id="0430"></td><td id="0445"></td></tr>
+     <tr class="nightTime"><th> 5 <span>am</span></th><td id="0500"></td><td id="0515"></td><td id="0530"></td><td id="0545"></td></tr>
+     <tr class="nightTime"><th> 6 <span>am</span></th><td id="0600"></td><td id="0615"></td><td id="0630"></td><td id="0645"></td></tr>
+     <tr class="nightTime"><th> 7 <span>am</span></th><td id="0700"></td><td id="0715"></td><td id="0730"></td><td id="0745"></td></tr>
+     <tr class="dayTime"  ><th> 8 <span>am</span></th><td id="0800"></td><td id="0815"></td><td id="0830"></td><td id="0845"></td></tr>
+     <tr class="dayTime"  ><th> 9 <span>am</span></th><td id="0900"></td><td id="0915"></td><td id="0930"></td><td id="0945"></td></tr>
+     <tr class="dayTime"  ><th>10 <span>am</span></th><td id="1000"></td><td id="1015"></td><td id="1030"></td><td id="1045"></td></tr>
+     <tr class="dayTime"  ><th>11 <span>am</span></th><td id="1100"></td><td id="1115"></td><td id="1130"></td><td id="1145"></td></tr>
+     <tr class="dayTime"  ><th>12 <span>pm</span></th><td id="1200"></td><td id="1215"></td><td id="1230"></td><td id="1245"></td></tr>
+     <tr class="dayTime"  ><th> 1 <span>pm</span></th><td id="1300"></td><td id="1315"></td><td id="1330"></td><td id="1345"></td></tr>
+     <tr class="dayTime"  ><th> 2 <span>pm</span></th><td id="1400"></td><td id="1415"></td><td id="1430"></td><td id="1445"></td></tr>
+     <tr class="dayTime"  ><th> 3 <span>pm</span></th><td id="1500"></td><td id="1515"></td><td id="1530"></td><td id="1545"></td></tr>
+     <tr class="dayTime"  ><th> 4 <span>pm</span></th><td id="1600"></td><td id="1615"></td><td id="1630"></td><td id="1645"></td></tr>
+     <tr class="dayTime"  ><th> 5 <span>pm</span></th><td id="1700"></td><td id="1715"></td><td id="1730"></td><td id="1745"></td></tr>
+     <tr class="dayTime"  ><th> 6 <span>pm</span></th><td id="1800"></td><td id="1815"></td><td id="1830"></td><td id="1845"></td></tr>
+     <tr class="dayTime"  ><th> 7 <span>pm</span></th><td id="1900"></td><td id="1915"></td><td id="1930"></td><td id="1945"></td></tr>
+     <tr class="nightTime"><th> 8 <span>pm</span></th><td id="2000"></td><td id="2015"></td><td id="2030"></td><td id="2045"></td></tr>
+     <tr class="nightTime"><th> 9 <span>pm</span></th><td id="2100"></td><td id="2115"></td><td id="2130"></td><td id="2145"></td></tr>
+     <tr class="nightTime"><th>10 <span>pm</span></th><td id="2200"></td><td id="2215"></td><td id="2230"></td><td id="2245"></td></tr>
+     <tr class="nightTime"><th>11 <span>pm</span></th><td id="2300"></td><td id="2315"></td><td id="2330"></td><td id="2345"></td></tr>
+    </table>
+    </div>
+    
+        <script>
+        /*
+        
+        <input type='text' id='nameInput' placeholder='Name'>
+        <input type='text' id='messageInput' placeholder='Message'>
+        
+        
+          var myDataRef = new Firebase('https://cm5732cju6q.firebaseio-demo.com/');
+          $('#messageInput').keypress(function (e) {
+            if (e.keyCode == 13) {
+              var name = $('#nameInput').val();
+              var text = $('#messageInput').val();
+              myDataRef.set({name: name, text: text});
+              $('#messageInput').val('');
+            }
+          });
+          
+          myDataRef.on('child_added', function(snapshot) {
+    var message = snapshot.val();
+    displayChatMessage(message.name, message.text);
+    
+          });
+          function displayChatMessage(name, text) {
+            $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+            $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+          };
+          */
     </script>
+    
   </body>
 </html>
